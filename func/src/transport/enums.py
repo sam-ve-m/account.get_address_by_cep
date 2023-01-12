@@ -21,7 +21,6 @@ class JormungandrEnums:
         response_json = orjson.loads(response_content)
         return response_json.get("result")
 
-
     @classmethod
     async def find_city_enum_code(cls, city: str, state: str) -> AddressEnum:
         url = config("JORMUNGANDR_URL_ENUM_CITY")
