@@ -1,0 +1,39 @@
+apiVersion: fission.io/v1
+kind: Environment
+metadata:
+  creationTimestamp: null
+  name: acc-address-by-cep-env
+  namespace: default
+spec:
+  imagepullsecret: nexus-v3
+  keeparchive: false
+  poolsize: 2
+  resources:
+    requests:
+      cpu: 128m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 256Mi
+  runtime:
+    image: nexus.sigame.com.br/fission-account-address-by-cep:0.1.0-4
+    podspec:
+      containers:
+        - name: acc-address-by-cep-env
+          env:
+            - name: ROOT_LOG_LEVEL
+              value: "INFO"
+            - name: ETRIA_LOG_LEVEL
+              value: "INFO"
+            - name: ASGI_FRAMEWORK
+              value: "HYPERCORN"
+            - name: JORMUNGANDR_URL_ENUM_CITY
+              value: "http://router.fission.svc.cluster.local/enum/city"
+            - name: JORMUNGANDR_URL_ENUM_STATE
+              value: "http://router.fission.svc.cluster.local/enum/state"
+            - name: DEFAULT_BR_COUNTRY_CODE
+              value: "BRA"
+            - name: DEFAULT_BR_COUNTRY_VALUE
+              value: "Brasil"
+  terminationGracePeriod: 3
+  version: 3
